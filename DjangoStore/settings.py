@@ -39,10 +39,20 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3d-Parties
     "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # Local Apps
     "store.apps.StoreConfig",
     "accounts.apps.AccountsConfig",
 ]
+REST_AUTH = {"LOGIN_SERIALIZER": "accounts.serializers.CustomLoginSerializer"}
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

@@ -60,7 +60,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.email
 
     class Meta:
         ordering = ["first_name", "last_name"]
