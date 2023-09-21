@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 3d-Parties
+    "django.contrib.sites",
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
     "dj_rest_auth.registration",
-    "django.contrib.sites",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -50,9 +50,27 @@ INSTALLED_APPS = [
     "store.apps.StoreConfig",
     "accounts.apps.AccountsConfig",
 ]
-REST_AUTH = {"LOGIN_SERIALIZER": "accounts.serializers.CustomLoginSerializer"}
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+REST_AUTH = {
+    "LOGIN_SERIALIZER": "accounts.serializers.CustomLoginSerializer",
+}
+# Email Configs
+SITE_ID = 1
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_UNIQUE_EMAIL = True
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# Django Allauth settings
+ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Change to your desired value
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # Use lowercase "email"
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
