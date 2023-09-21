@@ -56,6 +56,7 @@ AUTHENTICATION_BACKENDS = (
 )
 REST_AUTH = {
     "LOGIN_SERIALIZER": "accounts.serializers.CustomLoginSerializer",
+    "REGISTER_SERIALIZER": "accounts.serializers.CustomRegisterSerializer",
 }
 # Email Configs
 SITE_ID = 1
