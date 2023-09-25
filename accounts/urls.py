@@ -7,8 +7,6 @@ urlpatterns = [
     re_path(
         r"^rest-auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$",
         CustomEmailConfirmView.as_view(),
-        r"^registration/account-confirm-email/(?P<key>[-:\w]+)/$",
-        CustomEmailConfirmView.as_view(),
         name="account_confirm_email",
     ),
     path(r"registration/", include("dj_rest_auth.registration.urls")),
