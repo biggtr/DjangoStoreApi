@@ -9,17 +9,11 @@ from django.shortcuts import get_object_or_404
 
 class CustomEmailConfirmView(APIView):
     def get(self, request, key):
-        verify_email_url = (
-            "http://localhost:8000/dj-rest-auth/registration/verify-email/"
-        )
+        # Look up the email confirmation record by key
+        email_confirmation = get_object_or_404(EmailConfirmation, key=key)
 
-        # make a POST request to the verify-email endpoint with the key
-        response = requests.post(verify_email_url, {"key": key})
-        if response.status_code == 200:
-            return Response(
-                {"message": "Email verified successfully"}, status=status.HTTP_200_OK
-            )
-        else:
+        # Check if the confirmation key is expired
+        if email_confirmation.key_expired:
             return Response(
                 {"message": "Email verification failed"},
                 status=status.HTTP_400_BAD_REQUEST,
