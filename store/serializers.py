@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Collection, Product
+from .models import Collection, Product, Review
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -37,3 +37,22 @@ class CollectionSerializer(serializers.ModelSerializer):
 
     def ProductCount(self, collection: Collection):
         return collection.products.count()
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    customer_first_name = serializers.SerializerMethodField("get_customer_first_name")
+
+    class Meta:
+        model = Review
+        fields = ["id", "date", "description", "customer_first_name"]
+
+    def get_customer_first_name(self, obj: Review):
+        customer = obj.customer
+        return customer.first_name
+
+    def create(self, validated_data):
+        product_id = self.context["product_id"]
+        customer = self.context["customer"]
+        return Review.objects.create(
+            product_id=product_id, customer=customer, **validated_data
+        )
