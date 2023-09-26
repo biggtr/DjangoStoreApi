@@ -9,11 +9,13 @@ from rest_framework.mixins import (
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .models import Product, Collection, OrderItem, Review, CartItem, Cart
 from .serializers import (
+    AddCartItemSerializer,
+    CartItemSerializer,
     CartSerializer,
-    CartitemSerializer,
     ProductSerializer,
     CollectionSerializer,
     ReviewSerializer,
+    UpdateCartItemSerializer,
 )
 
 # Create your views here.
@@ -57,7 +59,14 @@ class CartViewSet(
 
 
 class CartItemViewSet(ModelViewSet):
-    serializer_class = CartitemSerializer
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return AddCartItemSerializer
+        elif self.request.method == "PATCH":
+            return UpdateCartItemSerializer
+        return CartItemSerializer
 
     def get_queryset(self):
         return CartItem.objects.filter(cart_id=self.kwargs["cart_pk"])
