@@ -42,7 +42,11 @@ class CollectionSerializer(serializers.ModelSerializer):
 class CartitemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = ["product", "quantity"]
+        fields = ["id", "product", "quantity"]
+
+    def create(self, validated_data):
+        cart_id = self.context["cart_id"]
+        return CartItem.objects.create(cart_id=cart_id, **validated_data)
 
 
 class CartSerializer(serializers.ModelSerializer):

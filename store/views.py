@@ -57,8 +57,15 @@ class CartViewSet(
 
 
 class CartItemViewSet(ModelViewSet):
-    queryset = CartItem.objects.all()
     serializer_class = CartitemSerializer
+
+    def get_queryset(self):
+        return CartItem.objects.filter(cart_id=self.kwargs["cart_pk"])
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["cart_id"] = self.kwargs["cart_pk"]
+        return context
 
 
 class ReviewViewSet(ModelViewSet):
