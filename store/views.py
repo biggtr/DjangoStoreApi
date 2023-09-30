@@ -127,7 +127,6 @@ class OrderViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-
         if user.is_staff:
             return Order.objects.all()
 

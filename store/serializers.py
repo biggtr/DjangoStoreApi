@@ -11,7 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
         lookup_field="pk",
         source="collection",
     )
-    collection = serializers.StringRelatedField()
+    collection_name = serializers.StringRelatedField()
 
     class Meta:
         model = Product
@@ -22,6 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "inventory",
             "unit_price",
             "collection",
+            "collection_name",
             "collection_url",
         ]
 
